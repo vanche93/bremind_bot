@@ -3,14 +3,16 @@ from rutimeparser import parse
 from rutimeparser import get_clear_text, get_last_clear_text
 from datetime import datetime, date, time
 from parser import import_dt, import_text
+from bot import bot
 import subprocess
 import re
 import sys
 import telebot
 #import datetime
 import logging
-#Токен
-bot = telebot.TeleBot('851681192:AAFH4scCKNIJZg2UbBfGcSClHsGyPTYSD-Q')
+from os import getcwd
+#Рабочая папка срипта
+dir = getcwd()
 #Логирование
 logging.basicConfig(filename="bremindbot.log", level=logging.INFO)
 logtime = datetime.now()
@@ -41,7 +43,7 @@ def send_message(id, text):
     bot.send_message(id, text)
 #Функция создают задачу в AT
 def add_task(id, text, date_time):
-    cmd = 'echo "/home/remind/send_message.py %s  \'%s\''' " | at %s' % (id, text, date_time)
+    cmd = 'echo "%s/send_message.py %s  \'%s\''' " | at %s' % (dir, id, text, date_time)
     logging.info(logtime)
     logging.info (cmd)
     subprocess.Popen(cmd, shell=True)
