@@ -1,23 +1,12 @@
 
 from __future__ import print_function
-from rutimeparser import parse
-from rutimeparser import get_clear_text, get_last_clear_text
-from datetime import datetime, date, time
 from parser import import_dt, import_text
 from bot import bot
 from config import sdir
 import subprocess
 import re
-import sys
-import telebot
-#import datetime
-import logging
-#Логирование
-logging.basicConfig(filename="bremindbot.log", level=logging.INFO)
-logtime = datetime.now()
-
 #Функция отвечает на стартовое сообщение
-@bot.message_handler(commands=['start', 'help'])
+@bot.message_handler(commands=['start', 'help',])
 def start_message(message):
     bot.send_message(message.chat.id,
                      'Привет, я бот котрый напомнит тебе что то сделать. \n Просто напиши мне что и когда тебе напомнить. \n Например "Выпить таблетки завтра днем" или "Забрать заказ 13 октября" \n Пока бот не умеет удалять созданые напоминания и часовой пояс MSK +3, но скоро я это все поправлю.')
@@ -40,15 +29,13 @@ def in_text(message):
 #Функция отправляет сообщения в чат пользователю
 def send_message(id, text):
     bot.send_message(id, text)
-#Функция создают задачу в AT
+#Функция создают задачу в AT и добавляет ее в бд
 def add_task(id, text, date_time):
     cmd = 'echo "%s/send_message.py %s  \'%s\''' " | at %s' % (sdir, id, text, date_time)
-    logging.info(logtime)
-    logging.info (cmd)
-    subprocess.Popen(cmd, shell=True)
+    print(cmd)
+    out = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    stdout = out.communicate()
+    print(stdout)
 
 #Ожидать входящие сообщения
 bot.polling()
-#Для отладки
-#send_message(267187987, 'dfgfgf')
-#add_task(267187987, testm, datetime)
