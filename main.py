@@ -52,4 +52,5 @@ def add_task(id, text, date_time):
 
 
 # Ожидать входящие сообщения
-bot.polling()
+if __name__ == '__main__':
+    bot.polling()

@@ -49,6 +49,10 @@ def read_data_in_task(chatid):
     conn = sqlite3.connect("db.db")
     cursor = conn.cursor()
     chatid = 'tasklist:' + str(chatid)
+    # Если таблицы не существует создать ее
+    cursor.execute("""CREATE TABLE IF NOT EXISTS '%s'
+                          (number text, time text, text text)
+                       """ % (chatid))
     c = cursor.execute("""SELECT * FROM '%s'""" % (chatid))
     result = '*Номер задачи | Время | Задача* \n' + '\n'.join(['| '.join(map(str, x)) for x in c])
     print(result)
