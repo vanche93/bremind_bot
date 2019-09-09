@@ -1,4 +1,4 @@
 rutimeparser=1.1.1
-datetime
-telebot
-pytelegrambotapi
+DateTime=4.3
+telebot=0.0.3
+pyTelegramBotAPI=3.6.6
