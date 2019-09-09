@@ -16,7 +16,7 @@ bot = telebot.TeleBot(token)
 def start_message(message):
     tz_string = datetime.datetime.now(datetime.timezone.utc).astimezone().tzname()
     bot.send_message(message.chat.id,
-                     'Привет, я бот котрый напомнит тебе что то сделать. \n Просто напиши мне что и когда тебе напомнить. \n Например "Выпить таблетки завтра днем" или "Забрать заказ 13 октября"\n Список напоминаний можно посмотреть с помощью команды /tasklist.\n Я работаю в часовом поясе:%s \n https://github.com/vanche93/bremind_bot/'%(tz_string))
+                     f'Привет, я бот котрый напомнит тебе что то сделать. \n Просто напиши мне что и когда тебе напомнить. \n Например "Выпить таблетки завтра днем" или "Забрать заказ 13 октября"\n Список напоминаний можно посмотреть с помощью команды /tasklist.\n Я работаю в часовом поясе:{tz_string} \n https://github.com/vanche93/bremind_bot/')
 
 
 @bot.message_handler(commands=['tasklist'])  # Функция отвечает на комнаду tasklist
@@ -43,7 +43,7 @@ def in_text(message):
 
 def add_task(id, text, date_time):  # Функция создают задачу в AT и добавляет ее в бд
     uid = uuid.uuid4()
-    cmd = 'echo "%s/send_message.py %s  \'%s\' %s '' " | at %s' % (sdir, id, text, uid, date_time)
+    cmd = f"""echo "{sdir}/send_message.py {id}  \'{text}\' {uid} '' " | at {date_time}"""
     out = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     stdout = str(out.communicate())
     number = re.search('job(.+?) at', stdout).group(1)
