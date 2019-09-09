@@ -23,13 +23,11 @@ def start_message(message):
 @bot.message_handler(commands=['tasklist'])  # Функция отвечает на комнаду tasklist
 def start_message(message):
     text = read_data_in_task(message.chat.id)
-    print(text)
     bot.send_message(message.chat.id, text, parse_mode='Markdown')
 
 
 @bot.message_handler(content_types=['text'])  # Функция обрабатывает текстовые сообщения
 def in_text(message):
-    print(message)
     dt = import_dt(message.text)
     text = import_text(message.text)
     if dt == 'null':
@@ -47,10 +45,8 @@ def in_text(message):
 def add_task(id, text, date_time):  # Функция создают задачу в AT и добавляет ее в бд
     uid = uuid.uuid4()
     cmd = 'echo "%s/send_message.py %s  \'%s\' %s '' " | at %s' % (sdir, id, text, uid, date_time)
-    print(cmd)
     out = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     stdout = str(out.communicate())
-    print(stdout)
     number = re.search('job(.+?) at', stdout).group(1)
     add_to_db_tasklist(id, number, date_time, text, uid)
 
@@ -59,7 +55,6 @@ def add_task(id, text, date_time):  # Функция создают задачу
 @bot.callback_query_handler(func=lambda call: True)
 def later(call):
     call.message.text = call.message.text + call.data
-    print(call.message.text)
     in_text(message=call.message)
 
 

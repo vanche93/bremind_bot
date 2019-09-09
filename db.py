@@ -24,16 +24,13 @@ def read_data_in_task(chatid):  # Чтение данных из таблицы 
                        """ % (chatid))
     c = cursor.execute("""SELECT number,time,text FROM '%s'""" % (chatid))
     result = '*Номер задачи | Время | Задача* \n' + '\n'.join(['| '.join(map(str, x)) for x in c])
-    print(result)
     return result
 
 
 def delete_task(uid, chatid):  # Удаление данных из таблицы 'tasklist'
     chatid = 'tasklist:' + str(chatid)
-    print(uid)
     conn = sqlite3.connect("db.db")
     cursor = conn.cursor()
     delete = """DELETE FROM '%s' WHERE uid = '%s' """ % (chatid, uid)
     cursor.execute(delete)
     conn.commit()
-    print("Запись удалена" + uid)
