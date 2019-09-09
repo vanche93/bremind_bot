@@ -1,23 +1,18 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# BRemind v0.1 created by Ivan Burashev in 2019 vanche93@yandex.ru
-
-# Скрипт принимает два аргумента ид и сообщение
-# Пример использования:
-# ./send_message.py 267187987 'Сообщение из консоли'
 
 import logging
 import sys
-from bot import bot
+
 from telebot import types
-from main import add_task, in_text
+
 from db import delete_task
+from main import bot
 
 logging.basicConfig(filename="send_message.log", level=logging.INFO)
 
 
-# Функция отправляет сообщения в чат пользователю
-def send_message(id, text, uid):
+def send_message(id, text, uid):  # Функция отправляет сообщения в чат пользователю
     keyboard = types.InlineKeyboardMarkup()
     keyboard.add(*[types.InlineKeyboardButton(text=name, callback_data=' через 15 минут') for name in
                    ['Напомнить через 15 минут']])
