@@ -16,7 +16,7 @@ bot = telebot.TeleBot(token)
 def start_message(message):
     tz_string = datetime.datetime.now(datetime.timezone.utc).astimezone().tzname()
     bot.send_message(message.chat.id,
-                     'Привет, я бот котрый напомнит тебе что то сделать. \n Просто напиши мне что и когда тебе напомнить. \n Например "Выпить таблетки завтра днем" или "Забрать заказ 13 октября"\n Список напоминаний можно посмотреть с помощью команды /tasklist.\n Я работаю в часовом поясе:%s'%(tz_string))
+                     'Привет, я бот котрый напомнит тебе что то сделать. \n Просто напиши мне что и когда тебе напомнить. \n Например "Выпить таблетки завтра днем" или "Забрать заказ 13 октября"\n Список напоминаний можно посмотреть с помощью команды /tasklist.\n Я работаю в часовом поясе:%s \n https://github.com/vanche93/bremind_bot/'%(tz_string))
 
 
 @bot.message_handler(commands=['tasklist'])  # Функция отвечает на комнаду tasklist
