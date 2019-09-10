@@ -27,7 +27,7 @@ def start_message(message):
 
 @bot.message_handler(content_types=['text'])  # Функция обрабатывает текстовые сообщения
 def in_text(message):
-    dt = import_dt(message.text)
+    dt, dt_text = import_dt(message.text)
     text = import_text(message.text)
     if dt == 'null':
         bot.send_message(message.chat.id, 'Нужно указать время!')
@@ -37,7 +37,7 @@ def in_text(message):
         bot.send_message(message.chat.id, 'Нужно указать о чем вам напомнить!')
     else:
         add_task(message.chat.id, text, dt)
-        answer = 'Я напомню тебе ' + text + ' ' + dt
+        answer = 'Я напомню тебе ' + text + ' ' + dt_text
         bot.send_message(message.chat.id, answer)
 
 

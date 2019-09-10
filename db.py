@@ -19,6 +19,13 @@ def add_user(id, tz='EUROPE/MOSCOW'): # Добавление нового пол
     cursor.execute(ins)
     conn.commit()
 
+def get_user_tz(chatid):
+    conn = sqlite3.connect("db.db")
+    cursor = conn.cursor()
+    result = cursor.execute(f"""SELECT tz FROM 'users' WHERE id={chatid}""")
+    print(result)
+    return result
+
 def add_to_db_tasklist(chatid, number, time, text, uid):  # Функция добавляет данные в таблицу 'tasklist'
     conn = sqlite3.connect("db.db")
     cursor = conn.cursor()
@@ -32,7 +39,6 @@ def read_data_in_task(chatid):  # Чтение данных из таблицы 
     cursor = conn.cursor()
     c = cursor.execute(f"""SELECT number,time,text FROM 'tasklist' WHERE id={chatid}""")
     result = '*Номер задачи | Время | Задача* \n' + '\n'.join(['| '.join(map(str, x)) for x in c])
-    print(result)
     return result
 
 
