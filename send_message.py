@@ -12,18 +12,16 @@ from main import bot
 logging.basicConfig(filename="send_message.log", level=logging.INFO)
 
 
-def send_message(id, text, uid):  # Функция отправляет сообщения в чат пользователю
+def send_message(id, text):  # Функция отправляет сообщения в чат пользователю
     keyboard = types.InlineKeyboardMarkup()
-    keyboard.add(*[types.InlineKeyboardButton(text=name, callback_data=' через 15 минут') for name in
-                   ['Напомнить через 15 минут']])
-    keyboard.add(
-        *[types.InlineKeyboardButton(text=name, callback_data=' через час') for name in ['Напомнить через час']])
-    keyboard.add(*[types.InlineKeyboardButton(text=name, callback_data=' завтра') for name in ['Напомнить завтра']])
+    keyboard.add(types.InlineKeyboardButton(text='Напомнить через 15 минут', callback_data=' через 15 минут'))
+    keyboard.add(types.InlineKeyboardButton(text='Напомнить через час', callback_data=' через час'))
+    keyboard.add(types.InlineKeyboardButton(text='Напомнить завтра', callback_data=' завтра'))
     bot.send_message(id, text, reply_markup=keyboard)
     logging.info(id)
     logging.info(text)
 
 
 if __name__ == "__main__":
-    send_message(sys.argv[1], sys.argv[2], sys.argv[3])
+    send_message(sys.argv[1], sys.argv[2])
     delete_task(uid=sys.argv[3])

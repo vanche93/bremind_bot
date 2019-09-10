@@ -2,9 +2,12 @@
 # BRemind created by Ivan Burashev in 2019 vanche93@yandex.ru
 
 from datetime import datetime, time
-from config import servertz
-from rutimeparser import parse, get_clear_text
+
 import pytz
+from rutimeparser import parse, get_clear_text
+
+from config import servertz
+
 
 def import_dt(text, timezone='Europe/Moscow'):  # Функция забирает дату и время из сообщения
     result = parse(text, tz=timezone, now=None, remove_junk=True,
@@ -21,6 +24,7 @@ def import_dt(text, timezone='Europe/Moscow'):  # Функция забирае�
     result = ('{:%H:%M %d.%m.%Y}'.format(result))
     dt_text = ('{:%H:%M %d.%m.%Y}'.format(dt_text))
     return result, dt_text
+
 
 def import_text(text):  # Функция забирает текст из сообщения
     result = get_clear_text(text)

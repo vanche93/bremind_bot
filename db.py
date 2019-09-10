@@ -1,30 +1,34 @@
 import sqlite3
 
+
 def init_db():
     conn = sqlite3.connect("db.db")
     cursor = conn.cursor()
     # Если таблицы не существует создать ее
-    cursor.execute("""CREATE TABLE IF NOT EXISTS 'users'
-                              (id text, tz text)
-                           """)
+    cursor.execute("""CREATE TABLE IF NOT EXISTS 'users'(id TEXT UNIQUE, tz TEXT)""")
     cursor.execute("""CREATE TABLE IF NOT EXISTS 'tasklist'
                                   (id text, number text, time text, text text, uid text)
                                """)
     conn.commit()
 
-def add_user(id, tz='EUROPE/MOSCOW'): # Добавление нового пользователя
+
+def change_tz(id, tz):
     conn = sqlite3.connect("db.db")
     cursor = conn.cursor()
-    ins = f"""INSERT INTO 'users'  VALUES ('{id}', '{tz}')"""
-    cursor.execute(ins)
+    cursor.execute(f"""INSERT OR IGNORE INTO users(id) VALUES({id});""")
+    cursor.execute(f"""UPDATE users SET tz = '{tz}' WHERE id = '{id}';""")
     conn.commit()
+
 
 def get_user_tz(chatid):
     conn = sqlite3.connect("db.db")
     cursor = conn.cursor()
-    result = cursor.execute(f"""SELECT tz FROM 'users' WHERE id={chatid}""")
-    print(result)
-    return result
+    cursor.execute(f"""SELECT tz FROM 'users' WHERE id={chatid}""")
+    row = cursor.fetchone()
+    if row[0] is None:
+        return 'none'
+    return row[0]
+
 
 def add_to_db_tasklist(chatid, number, time, text, uid):  # Функция добавляет данные в таблицу 'tasklist'
     conn = sqlite3.connect("db.db")
