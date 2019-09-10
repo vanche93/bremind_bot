@@ -26,4 +26,4 @@ def send_message(id, text, uid):  # Функция отправляет сооб
 
 if __name__ == "__main__":
     send_message(sys.argv[1], sys.argv[2], sys.argv[3])
-    delete_task(uid=sys.argv[3], chatid=sys.argv[1])
+    delete_task(uid=sys.argv[3])

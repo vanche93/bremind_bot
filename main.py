@@ -6,7 +6,7 @@ import telebot
 
 from config import sdir
 from config import token
-from db import add_to_db_tasklist, read_data_in_task
+from db import add_to_db_tasklist, read_data_in_task,init_db
 from parser import import_dt, import_text
 
 bot = telebot.TeleBot(token)
@@ -50,12 +50,12 @@ def add_task(id, text, date_time):  # Функция создают задачу
     add_to_db_tasklist(id, number, date_time, text, uid)
 
 
-# Реакция на кнопки отложить
-@bot.callback_query_handler(func=lambda call: True)
+@bot.callback_query_handler(func=lambda call: True) # Реакция на кнопки отложить
 def later(call):
     call.message.text = call.message.text + call.data
     in_text(message=call.message)
 
 
 if __name__ == '__main__':  # Ожидать входящие сообщения
+    init_db()
     bot.polling()
