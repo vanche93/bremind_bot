@@ -1,3 +1,3 @@
 # bremind_bot
 Простой Telegram бот напоминалка использующий утилиту at.
-Работает только в часовом поясе сервера.
+Нужно использовать модуль rutimeparser из моего репозитория https://github.com/vanche93/rutimeparser
